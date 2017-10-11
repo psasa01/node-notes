@@ -1,5 +1,3 @@
-console.log('Starting app.js')
-
 const fs = require('fs');
 const _ = require('lodash');
 const yargs = require('yargs');
@@ -8,10 +6,6 @@ const notes = require('./notes.js');
 
 const argv = yargs.argv;
 var command = argv._[0];
-
-console.log('Command: ', command);
-console.log('Yargs', argv);
-
 
 if (command === 'add') {
     var note = notes.addNote(argv.title, argv.body);
@@ -24,12 +18,11 @@ if (command === 'add') {
 
 } else if (command === 'list') {
     var getNotes = notes.getAll();
-    if (getNotes) {
-        for (var i = 0; i < getNotes.length; i++) {
-            console.log(getNotes[i].body + " - " + getNotes[i].title);
-        }
-    }
-
+    console.log(`Printing ${getNotes.length} notes.`);
+    getNotes.forEach((note) => {
+        console.log(`${getNotes.indexOf(note) + 1}.`);
+        notes.printNote(note);
+    })
 
 } else if (command === 'read') {
     var note = notes.getNote(argv.title, argv.body);
